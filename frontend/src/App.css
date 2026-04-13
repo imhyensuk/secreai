@@ -1,0 +1,231 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* 이미지의 밝은 테마를 위한 색상 변수 수정 */
+  --white: #F5F4F0;
+  --black: #0D0D0D;
+  --green: #00FF66;
+  --green-dark: #00CC52;
+  --green-muted: rgba(0, 255, 102, 0.12);
+  --gray-50: #FAFAFA;
+  --gray-100: #EBEBEB; /* 밝은 회색 카드 배경 */
+  --gray-200: #D4D4D4;
+  --gray-400: #888888;
+  --gray-600: #444444;
+  --gray-800: #222222; /* 어두운 텍스트 색상 */
+  --sidebar-width: 260px;
+  --sidebar-collapsed: 68px;
+  --transition: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  --radius: 8px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.18);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  /* 깨끗한 흰색 배경색 적용 */
+  background: #ffffff;
+  /* 텍스트 색상을 어둡게 변경 */
+  color: var(--black);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.app { min-height: 100vh; }
+.app--dashboard { display: flex; }
+.app--full { display: block; }
+
+.app__content { flex: 1; min-height: 100vh; transition: margin-left var(--transition); }
+.app__content--sidebar { margin-left: var(--sidebar-width); }
+.app__content--collapsed { margin-left: var(--sidebar-collapsed); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gray-200); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--black); }
+
+/* Selection */
+::selection { background: var(--green); color: var(--black); }
+
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+a { text-decoration: none; color: inherit; }
+input, textarea, select { font-family: inherit; }
+
+/* Print styles for Notion */
+@media print {
+  .app { display: none; }
+  .notion-print-root { display: block !important; }
+}
+
+.notion-print-root { display: none; }
+
+/* ─────────────────────────────────────────────────────────────────────
+   LOGIN REQUIRED GATE (Contact Page Style)
+─────────────────────────────────────────────────────────────────────── */
+.login-gate-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 40px;
+}
+
+.login-gate-content {
+  display: flex;
+  flex-direction: row;
+  gap: 80px;
+  max-width: 1000px;
+  width: 100%;
+  align-items: flex-start;
+  margin-top: -10vh;
+  animation: cardFadeUp 0.6s ease-out;
+}
+
+@keyframes cardFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.login-gate-left {
+  flex: 1;
+  max-width: 500px;
+}
+
+.login-gate-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--green-dark);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.login-gate-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  color: var(--black);
+  line-height: 0.9;
+  margin-bottom: 30px;
+  letter-spacing: 0.02em;
+}
+
+.login-gate-text {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  color: var(--gray-600);
+  line-height: 1.6;
+}
+
+.login-gate-text strong {
+  color: var(--black);
+}
+
+.login-gate-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 420px;
+  width: 100%;
+}
+
+.login-status-box {
+  background-color: var(--black);
+  border-radius: 12px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.status-time {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  color: var(--green);
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+.status-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  color: var(--gray-400);
+}
+
+.status-icon {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--gray-400);
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.login-gate-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-primary-black {
+  background-color: var(--black);
+  color: #ffffff;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary-black:hover {
+  background-color: var(--gray-800);
+}
+
+.btn-outline-gray {
+  background-color: transparent;
+  color: var(--gray-600);
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 14px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--gray-200);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.btn-outline-gray:hover {
+  border-color: var(--gray-400);
+  color: var(--black);
+}
+
+@media (max-width: 900px) {
+  .login-gate-content {
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 0;
+  }
+  .login-gate-title {
+    font-size: 60px;
+  }
+  .login-gate-right {
+    max-width: 100%;
+  }
+}

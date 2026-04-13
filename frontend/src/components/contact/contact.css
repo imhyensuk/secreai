@@ -1,0 +1,206 @@
+.contact { 
+  padding: 40px 48px; 
+  min-height: 100vh; 
+  background: #fcfcfc; 
+  display: flex; 
+  align-items: flex-start; 
+  position: relative;
+  overflow: hidden;
+}
+
+/* 그라데이션 원 효과를 위한 가상 요소 */
+.contact::before,
+.contact::after {
+  content: '';
+  position: absolute;
+  z-index: -1; 
+  border-radius: 50%;
+  filter: blur(80px); 
+}
+
+/* 첫 번째 형광 초록 원 */
+.contact::before {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(102, 255, 102, 0.4) 0%, rgba(102, 255, 102, 0.05) 50%, rgba(102, 255, 102, 0) 70%);
+  top: -100px;
+  left: -100px;
+  animation: moveCircle1 40s linear infinite; 
+}
+
+/* 두 번째 약간 다른 초록 원 */
+.contact::after {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(50, 200, 50, 0.3) 0%, rgba(50, 200, 50, 0.1) 40%, rgba(50, 200, 50, 0) 60%);
+  bottom: -50px;
+  right: -50px;
+  animation: moveCircle2 35s linear infinite; 
+}
+
+/* 애니메이션 경로 정의 */
+@keyframes moveCircle1 {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(100px, 150px); }
+  50% { transform: translate(150px, -100px); }
+  75% { transform: translate(-100px, 50px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes moveCircle2 {
+  0% { transform: translate(0, 0); }
+  30% { transform: translate(-150px, 100px); }
+  60% { transform: translate(100px, 150px); }
+  80% { transform: translate(-50px, -100px); }
+  100% { transform: translate(0, 0); }
+}
+
+.contact__layout { display: grid; grid-template-columns: 1fr 1.3fr; gap: 72px; width: 100%; max-width: 1000px; z-index: 1; }
+
+/* Left */
+.contact__eyebrow { display: block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.14em; color: var(--green-dark); margin-bottom: 7px; }
+.contact__title { font-family: 'Bebas Neue', sans-serif; font-size: 60px; letter-spacing: 0.04em; color: var(--black); margin-bottom: 16px; }
+.contact__desc { font-size: 13px; line-height: 1.75; color: var(--gray-600); margin-bottom: 28px; }
+
+/* Seoul clock */
+.contact__clock {
+  background: var(--black); border-radius: 10px; padding: 18px 20px; margin-bottom: 28px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.contact__clock-time {
+  font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 0.04em;
+  color: var(--green); line-height: 1;
+}
+.contact__clock-date { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--gray-400); }
+.contact__clock-greeting { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gray-400); margin-top: 2px; }
+
+/* Info items */
+.contact__info-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+.contact__info-item { display: flex; align-items: flex-start; gap: 12px; }
+.contact__info-icon { width: 36px; height: 36px; border-radius: 7px; background: var(--black); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.contact__info-content { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.contact__info-label { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.12em; color: var(--gray-400); }
+.contact__info-value-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.contact__info-value { font-size: 13px; font-weight: 600; color: var(--black); }
+.contact__info-link { font-size: 13px; font-weight: 600; color: var(--black); text-decoration: none; transition: color .2s; }
+.contact__info-link:hover { color: var(--green-dark); }
+
+/* Copy button */
+.contact__copy-btn {
+  display: flex; align-items: center; gap: 4px;
+  padding: 3px 8px; border: 1px solid var(--gray-200); border-radius: 4px;
+  font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.08em; font-weight: 600;
+  color: var(--gray-400); transition: all .15s; cursor: pointer; background: transparent;
+}
+.contact__copy-btn:hover { border-color: var(--black); color: var(--black); background: var(--gray-100); }
+.contact__copy-btn--done { border-color: var(--green); color: var(--green-dark); background: var(--green-muted); }
+
+/* Form */
+.contact__form { display: flex; flex-direction: column; gap: 18px; padding-top: 48px; }
+.contact__field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.contact__field { display: flex; flex-direction: column; gap: 6px; }
+.contact__label { font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 500; letter-spacing: 0.12em; color: var(--black); }
+.contact__input { padding: 10px 13px; border: 1.5px solid var(--gray-200); border-radius: 6px; font-size: 13px; color: var(--black); background: var(--white); outline: none; transition: border-color .2s; }
+.contact__input:focus { border-color: var(--black); }
+.contact__input--error { border-color: #FF6B6B; }
+.contact__input::placeholder { color: var(--gray-400); }
+
+/* Custom Dropdown Styles (Sliding Motion) */
+.contact__custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.contact__select-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 13px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--black);
+  background-color: var(--white);
+  cursor: pointer;
+  transition: border-color .2s;
+  outline: none;
+}
+
+.contact__select-trigger:focus,
+.contact__select-trigger--open {
+  border-color: var(--black);
+}
+
+.contact__select-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 6px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  z-index: 100;
+  overflow: hidden;
+  
+  /* Sliding Animation Properties */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contact__select-dropdown--open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.contact__select-option {
+  padding: 12px 13px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+
+.contact__select-option:hover {
+  background: var(--gray-50);
+  color: var(--black);
+}
+
+/* Selected Option Highlight */
+.contact__select-option--selected {
+  background: var(--green) !important;
+  color: var(--black) !important;
+  font-weight: 600;
+}
+
+.contact__error { font-family: 'DM Mono', monospace; font-size: 9px; color: #FF6B6B; }
+.contact__textarea { padding: 11px 13px; border: 1.5px solid var(--gray-200); border-radius: 6px; font-size: 13px; color: var(--black); background: var(--white); outline: none; resize: vertical; transition: border-color .2s; line-height: 1.6; }
+.contact__textarea:focus { border-color: var(--black); }
+.contact__textarea::placeholder { color: var(--gray-400); }
+.contact__submit-error { padding: 10px 13px; background: rgba(255,107,107,.08); border: 1px solid rgba(255,107,107,.2); border-radius: 6px; font-family: 'DM Mono', monospace; font-size: 10px; color: #CC4444; }
+.contact__submit { padding: 12px 24px; background: var(--black); color: var(--white); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; border-radius: 6px; align-self: flex-start; transition: background .2s; }
+.contact__submit:hover:not(:disabled) { background: var(--green); color: var(--black); }
+.contact__submit:disabled { opacity: .5; cursor: wait; }
+
+/* Success */
+.contact__success { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 18px; text-align: center; width: 100%; }
+.contact__success-icon { width: 68px; height: 68px; border-radius: 50%; background: var(--black); display: flex; align-items: center; justify-content: center; border: 2px solid var(--green); }
+.contact__success-title { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 0.08em; color: var(--black); }
+.contact__success p { font-size: 13px; color: var(--gray-600); }
+.contact__success-back { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: var(--gray-400); margin-top: 8px; transition: color .2s; }
+.contact__success-back:hover { color: var(--black); }
+
+@media (max-width: 768px) {
+  .contact { padding: 32px 24px; }
+  .contact__layout { grid-template-columns: 1fr; gap: 36px; }
+  .contact__form { padding-top: 0; }
+  .contact__field-row { grid-template-columns: 1fr; }
+}
