@@ -80,6 +80,14 @@ TIERS: dict = {
                   "calculator", "weather", "currency", "summarizer", "translator"],
         "roles": ALL_ROLES, "rag": True, "workspace": 5, "storage_mb": 2048,
     },
+    "all-rounder": {
+        "label": "All-Rounder",
+        "models": {"gemini": ["gemini-2.0-flash", "gemini-1.5-pro", "gemini-1.5-flash"],
+                   "groq":   ["llama-3.1-8b-instant", "llama-3.1-70b-versatile",
+                              "llama-3.3-70b-versatile", "mixtral-8x7b-32768", "gemma2-9b-it"]},
+        "max_agents": 42, "max_sessions": None, "max_messages_per_session": None,
+        "tools": "__all__", "roles": ALL_ROLES, "rag": True, "workspace": None, "storage_mb": None,
+    },
 }
 
 _anon_client = None

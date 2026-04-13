@@ -34,6 +34,14 @@ const TIERS = [
     agents: '4', sessions: '10 active', messages: '200 / session', tools: 'Most tools (10)',
     roles: 'All 15', rag: '✓', workspace: '5 docs', storage: '2 GB', support: 'Email',
   },
+  {
+    id: 'all-rounder', name: 'ALL-ROUNDER', monthlyPrice: 99, annualPrice: 79, highlight: false, badge: 'ULTIMATE',
+    desc: 'Ultimate freedom. No limits, all tools, and full access to 42 AI agents.',
+    cta: 'GO ALL-ROUNDER',
+    models: { gemini: 'Pro 1.5 / 2.0 Flash Exp', groq: 'Llama 3.3 70B, Gemma2 9B, Mixtral' },
+    agents: '42', sessions: 'Unlimited', messages: 'Unlimited', tools: 'All tools (Unlimited)',
+    roles: 'All 42', rag: '✓', workspace: 'Unlimited', storage: 'Unlimited', support: '24/7 priority',
+  },
 ];
 
 const COMPARISON_ROWS = [
@@ -103,7 +111,7 @@ export default function Pricing({ user, navigate }) {
           const price = annual ? tier.annualPrice : tier.monthlyPrice;
           const isCurrent = activeTier === tier.id;
           return (
-            <div key={tier.id} className={`pricing__card ${tier.highlight ? 'pricing__card--highlight' : ''} ${isCurrent ? 'pricing__card--current' : ''}`}>
+            <div key={tier.id} className={`pricing__card ${tier.highlight ? 'pricing__card--highlight' : ''} ${isCurrent ? 'pricing__card--current' : ''} pricing__card--${tier.id}`}>
               {tier.badge && <span className="pricing__card-badge">{tier.badge}</span>}
               {isCurrent && <span className="pricing__card-current-badge">CURRENT PLAN</span>}
               <div className="pricing__card-top">
