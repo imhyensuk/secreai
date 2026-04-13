@@ -97,7 +97,10 @@ def build_tool_context(enabled_tools: Set[str]) -> str:
 #  Tool Execution Helper
 # ════════════════════════════════════════════════════════════════════
 async def execute_tool_via_http(tool_id: str, query: str, enabled_tools: set, role: str = None, rag_config: dict = None) -> str:
-    base_url = "http://127.0.0.1:8000/api/tools"
+    # ✅ 포트 동적 할당: Render 클라우드 환경에서 부여한 포트를 가져와 로컬 API에 요청을 보냅니다.
+    port = os.getenv("PORT", "8000")
+    base_url = f"http://127.0.0.1:{port}/api/tools"
+    
     payload = {"query": query, "enabled_tools": list(enabled_tools)}
     
     try:

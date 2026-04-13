@@ -461,4 +461,6 @@ async def check_permission(payload: dict, current_user: dict = Depends(get_curre
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    # ✅ 환경 변수 PORT를 읽어와 바인딩 (Render와 같은 클라우드 배포용)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
