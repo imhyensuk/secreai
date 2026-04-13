@@ -85,7 +85,7 @@ async def get_ticker_info(req: TickerRequest):
 async def get_price_history(req: HistoryRequest):
     """
     Fetch historical OHLCV price data for a ticker.
-    Returns daily/intraday price records with open, high, low, close, volume.
+    AI Context overflow protection: Provides a statistical summary and limits raw data to recent days.
     """
     _check_permission(req.enabled_tools)
     try:
@@ -104,13 +104,43 @@ async def get_price_history(req: HistoryRequest):
                 "close": round(float(row["Close"]), 4),
                 "volume": int(row["Volume"]),
             })
+            
+        if not records:
+            raise HTTPException(status_code=404, detail="No valid records parsed.")
+
+        # ✅ AI 친화적인 요약 데이터 산출 (Token 낭비 및 에코잉 방지)
+        first_record = records[0]
+        last_record = records[-1]
+        
+        start_price = first_record["close"]
+        end_price = last_record["close"]
+        change_pct = round(((end_price - start_price) / start_price) * 100, 2) if start_price else 0
+        
+        highs = [r["high"] for r in records]
+        lows = [r["low"] for r in records]
+        volumes = [r["volume"] for r in records]
+        
+        max_high = max(highs)
+        min_low = min(lows)
+        avg_volume = sum(volumes) // len(volumes)
 
         return {
             "ticker": req.ticker.upper(),
             "period": req.period,
             "interval": req.interval,
-            "record_count": len(records),
-            "data": records,
+            "summary": {
+                "start_date": first_record["date"],
+                "end_date": last_record["date"],
+                "start_price_close": start_price,
+                "end_price_close": end_price,
+                "period_change_percentage": f"{change_pct}%",
+                "highest_price": max_high,
+                "lowest_price": min_low,
+                "average_volume": avg_volume
+            },
+            # AI 컨텍스트 오버플로우를 막기 위해 최근 7건의 데이터만 전송
+            "recent_daily_data": records[-7:],
+            "system_note": "Full daily data array omitted to save context. Use the 'summary' block to explain trends."
         }
     except HTTPException:
         raise

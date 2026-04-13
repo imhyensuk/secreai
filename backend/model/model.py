@@ -427,7 +427,7 @@ async def run_agent_session(
         except json.JSONDecodeError:
             pass
 
-    # ✅ [수정됨] 로봇 같은 대답을 방지하기 위해 백엔드 지시문을 자연스러운 한국어 지침으로 변경
+    # ✅ 백엔드 지시문을 자연스러운 한국어 지침으로 변경
     base_prompt_modifier = ""
     if action_type == "elaborate":
         base_prompt_modifier = f"\n\n(참고: 사용자가 당신이 아까 말했던 \"{target_text}\" 부분에 대해 더 자세한 설명을 원합니다. '물론입니다' 같은 AI 말투를 빼고 자연스럽게 부연 설명하세요. 이 지시문 자체를 화면에 출력하면 안 됩니다.)"
@@ -492,7 +492,20 @@ async def run_agent_session(
                     t_result = await execute_tool_via_http(t_id, t_query, enabled_tools, role, rag_config)
                     
                     msgs.append({"role": "model" if resolved_provider == "gemini" else "assistant", "content": content})
-                    msgs.append({"role": "user", "content": f"[TOOL RESULT from {t_id}]:\n{t_result}\n\nAnalyze this data and provide your final response to the user. Do NOT call another tool."})
+                    
+                    # ✅ 데이터 에코잉 원천 차단을 위한 시스템 프롬프트 주입
+                    msgs.append({
+                        "role": "user", 
+                        "content": (
+                            f"[SYSTEM: TOOL RESULT from {t_id}]\n"
+                            f"{t_result}\n\n"
+                            f"=== [CRITICAL INSTRUCTIONS] ===\n"
+                            f"1. DO NOT output, copy, or repeat the raw JSON data in your response under any circumstances.\n"
+                            f"2. Read the data silently, extract only the key numbers, trends, or insights.\n"
+                            f"3. Respond naturally in Korean, strictly keeping your expert persona tone.\n"
+                            f"4. Do NOT make another tool call. Provide your final synthesized answer now."
+                        )
+                    })
                     continue
                 except Exception as e:
                     msgs.append({"role": "model" if resolved_provider == "gemini" else "assistant", "content": content})
